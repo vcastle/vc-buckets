@@ -1,23 +1,20 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import './App.scss';
+
+import { Form } from './form/form.component';
+import { Buckets } from './buckets/buckets.component';
 
 function App() {
+  const [bucketA, setBucketA] = useState('');
+  const [bucketB, setBucketB] = useState('');
+
+  const [formErrors, setFormErrors] = useState({});
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="grid">  
+     <Buckets></Buckets>
+     <Form></Form>
     </div>
   );
 }

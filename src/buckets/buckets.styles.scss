@@ -1,0 +1,40 @@
+$first: #0c75bb; // #a1d9b4;
+$second: #2ca594; // #32988a;
+$third: #0096ff; //#000e3c;
+
+.buckets {
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  align-items: flex-end;
+
+  /* Old browsers */
+  background: -moz-linear-gradient(307deg, $first 20%, $second 40%, $third 75%);
+  // /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    307deg,
+    $first 20%,
+    $second 40%,
+    $third 75%
+  );
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(307deg, $first 20%, $second 40%, $third 75%);
+  background-size: 350% 350%;
+  animation: waveColors 8s ease infinite;
+}
+
+/*--------------------------------------------------------------
+Key Frames
+--------------------------------------------------------------*/
+
+@keyframes waveColors {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

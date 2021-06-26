@@ -1,0 +1,14 @@
+.bucket {
+  height: 100px;
+  width: 200px;
+  margin: 50px;
+  border-top: 300px solid whitesmoke;
+  border-left: 40px solid transparent;
+  border-right: 40px solid transparent;
+
+  cursor:pointer;
+
+  &:first-child {
+    border-top: 600px solid whitesmoke;
+  }
+}
