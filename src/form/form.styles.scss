@@ -1,56 +1,77 @@
 .form {
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    // margin: 50px;
-    // align-self: flex-start;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 65px 100px 270px 20px;
+  padding: 30px;
 
+  // .form__title
+  &__title {
+    text-align: center;
+    grid-row: 1;
+    font-size: 28px;
+  }
 
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 100px 125px 10px;
-    padding: 30px;
+  // .form__label
+  &__label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: 700;
+  }
 
-    // .form__title
-    &__title {
-        text-align: center;
-        grid-row: 1;
-        font-size: 28px;
+  // .form__inputs
+  &__inputs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  // .form__input
+  &__input {
+    height: 40px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    grid-row: 2;
+
+    &:last-of-type {
+      grid-row: 3;
     }
 
-    // .form__inputs
-    &__inputs {
-        display: flex;
-        flex-direction: column;
+    // .error__input
+    &.error__input {
+      border: 2px solid crimson;
+      border-radius: 3px;
+    }
+  }
+
+  // .form__btn-submit
+  &__btn-submit {
+    height: 45px;
+    font-size: 18px;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    box-shadow: none;
+    cursor: pointer;
+    background-color: rgb(12, 117, 187);
+    transition: all 0.4s ease-in-out;
+
+    grid-row: 4;
+
+    &:hover {
+      background-color: rgb(8, 105, 170);
     }
 
-    // .form__input
-    &__input {
-        height: 40px;
-        margin-bottom: 10px;
-        padding-left: 10px;
-        grid-row: 2;
-
-        &:last-of-type{
-            grid-row: 3;
-        }
+    &:disabled {
+      transition: all 0.4s ease-in-out;
+      opacity: .4;
+      cursor:unset;
     }
+  }
+}
 
-    // .form__btn-submit
-    &__btn-submit {
-        height: 45px;
-        font-size: 18px;
-        color: white;
-        border-radius: 5px;
-        border: none;
-        box-shadow: none;
-        cursor: pointer;
-        background-color: rgb(12, 117, 187);
-
-        grid-row: 4;
-
-        &:hover {
-            background-color: rgb(8, 105, 170)
-        }
-    }
+// .error__message
+.error__message {
+  color: crimson;
+  font-size: 12px;
+  margin-top: 0;
+  margin-bottom: 15px;
 }
