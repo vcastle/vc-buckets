@@ -1,20 +1,23 @@
 import React, { useState } from "react";
-import './App.scss';
+import "./App.scss";
 
-import { Form } from './form/form.component';
-import { Buckets } from './buckets/buckets.component';
+import { Form } from "./form/form.component";
+import { Buckets } from "./buckets/buckets.component";
 
 function App() {
-  const [bucketA, setBucketA] = useState('');
-  const [bucketB, setBucketB] = useState('');
+  const [bucketA, setBucketA] = useState();
+  const [bucketB, setBucketB] = useState();
+  const [formValue, setFormValues] = useState([]);
 
-  const [formErrors, setFormErrors] = useState({});
-
+  const addValues = (val) => {
+    let values = [...formValue, val];
+    setFormValues(values);
+  };
 
   return (
-    <div className="grid">  
-     <Buckets></Buckets>
-     <Form></Form>
+    <div className="grid">
+      <Buckets bucketA={bucketA} bucketB={bucketB}></Buckets>
+      <Form addValues={addValues}></Form>
     </div>
   );
 }

@@ -1,12 +1,10 @@
 import "./buckets.styles.scss";
-import { Bucket } from '../bucket/bucket.component';
+import { Bucket } from "../bucket/bucket.component";
 
-export const Buckets = () => (
-    <div className="buckets">
-        <Bucket title={'Bucket1'}>
-        </Bucket>
+export const Buckets = ({ bucketA, bucketB }) => (
+  <div className="buckets">
+    <Bucket bucketA={bucketA} title={"Bucket A"}></Bucket>
 
-        <Bucket title={'Bucket2'}>
-        </Bucket>
-    </div>
-)
+    <Bucket bucketB={bucketB} title={"Bucket B"}></Bucket>
+  </div>
+);
