@@ -1,0 +1,37 @@
+.display {
+  // .display__title
+  &__title {
+    font-size: 20px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  // .display__pairs
+  &__pairs {
+   overflow-y: scroll;
+
+   @media screen and (max-width: 475px){
+      max-height: 390px;
+   }
+   
+  }
+}
+
+/** TABLE */
+td,
+th {
+  font-size: 14px;
+  border: 1px solid #2ca594;
+  text-align: center;
+  padding: 5px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  overflow-y: scroll;
+}
