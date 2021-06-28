@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
 import "./form.styles.scss";
 import { useState } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
-import { css } from "@emotion/react";
 
 import validateInput from "./validators/input-validator.component";
 import validateForm from "./validators/form-validator.component";
@@ -16,13 +14,6 @@ export const Form = ({ addValues }) => {
   const [shortestPath, setShortestPath] = useState();
   const [error, setErrors] = useState({});
   const [disabled, setDisabled] = useState(true);
-
-  /** SPINNER STYLE */
-  const spinner = css`
-    display: block;
-    margin: 0 auto;
-    border-color: whitesmoke;
-  `;
 
   /** HANDLE CHANGE */
   const handleChange = (e) => {
