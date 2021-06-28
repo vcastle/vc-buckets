@@ -16,7 +16,12 @@ function App() {
 
   return (
     <div className="grid">
-      <Buckets bucketA={bucketA} bucketB={bucketB}></Buckets>
+      <Buckets
+        bucketA={bucketA}
+        onSetBucketA={setBucketA}
+        bucketB={bucketB}
+        onSetBucketB={setBucketB}
+      ></Buckets>
       <Form addValues={addValues}></Form>
     </div>
   );
