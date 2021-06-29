@@ -20,3 +20,20 @@ $third: #0096ff;
   background-size: 350% 350%;
   animation: waveColors 8s ease infinite;
 }
+
+/*--------------------------------------------------------------
+Key Frames
+--------------------------------------------------------------*/
+
+@keyframes waveColors {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
