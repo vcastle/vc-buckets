@@ -10,9 +10,9 @@ export const Form = ({ addValues }) => {
   const [bucketA, setBucketA] = useState();
   const [bucketB, setBucketB] = useState();
   const [bucketGoal, setBucketGoal] = useState();
-  const [bucketState] = useState({ small: 0, large: 0 });
+  const [bucketState] = useState({ small: 0, large: 0, action: "Initial" });
   const [shortestPath, setShortestPath] = useState();
-  const [error, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
   const [disabled, setDisabled] = useState(true);
 
   /** HANDLE CHANGE */
@@ -88,9 +88,14 @@ export const Form = ({ addValues }) => {
     const fillBucket = (buckets, key = "large", max = maxLgBucket) => ({
       ...buckets,
       [key]: max,
+      action: "Fill",
     });
 
-    const dumpBucket = (buckets, key = "large") => ({ ...buckets, [key]: 0 });
+    const dumpBucket = (buckets, key = "large") => ({
+      ...buckets,
+      [key]: 0,
+      action: "Empty",
+    });
 
     const lgToSm = ({ large, small }) => {
       const quantityNeededToFillSmall = maxSmBucket - small;
@@ -104,6 +109,7 @@ export const Form = ({ addValues }) => {
           large > quantityNeededToFillSmall
             ? small + quantityNeededToFillSmall
             : small + large,
+        action: "Transfer Large to Small",
       };
     };
 
@@ -119,6 +125,7 @@ export const Form = ({ addValues }) => {
           small > quantityNeededToFillLarge
             ? large + quantityNeededToFillLarge
             : small + large,
+        action: "Transfer Small to Large",
       };
     };
 
@@ -171,8 +178,7 @@ export const Form = ({ addValues }) => {
         <form className="form" onSubmit={onSubmit}>
           <label className="form__label">Bucket A</label>
           <input
-            required
-            className={`form__input ${error?.bucketA && "error__input"}`}
+            className={`form__input ${errors?.bucketA && "error__input"}`}
             type="text"
             name="bucketA"
             placeholder="Enter Bucket A value"
@@ -183,12 +189,13 @@ export const Form = ({ addValues }) => {
             onInput={maxLengthCheck}
             value={bucketA || ""}
           />
-          {error?.bucketA && <p className="error__message">{error?.bucketA}</p>}
+          {errors?.bucketA && (
+            <p className="error__message">{errors?.bucketA}</p>
+          )}
 
           <label className="form__label">Bucket B</label>
           <input
-            required
-            className={`form__input ${error?.bucketB && "error__input"}`}
+            className={`form__input ${errors?.bucketB && "error__input"}`}
             type="text"
             name="bucketB"
             placeholder="Enter Bucket B value"
@@ -200,12 +207,13 @@ export const Form = ({ addValues }) => {
             onInput={maxLengthCheck}
             value={bucketB || ""}
           />
-          {error?.bucketB && <p className="error__message">{error?.bucketB}</p>}
+          {errors?.bucketB && (
+            <p className="error__message">{errors?.bucketB}</p>
+          )}
 
           <label className="form__label">Bucket Goal Amount</label>
           <input
-            required
-            className={`form__input ${error?.bucketGoal && "error__input"}`}
+            className={`form__input ${errors?.bucketGoal && "error__input"}`}
             type="text"
             name="bucketGoal"
             placeholder="Enter goal value"
@@ -217,8 +225,8 @@ export const Form = ({ addValues }) => {
             onInput={maxLengthCheck}
             value={bucketGoal || ""}
           />
-          {error?.bucketGoal && (
-            <p className="error__message">{error?.bucketGoal}</p>
+          {errors?.bucketGoal && (
+            <p className="error__message">{errors?.bucketGoal}</p>
           )}
 
           <button
