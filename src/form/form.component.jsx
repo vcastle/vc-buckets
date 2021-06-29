@@ -160,15 +160,15 @@ export const Form = ({ addValues }) => {
 
   return (
     <div className="side-bar">
-      <form className="form" onSubmit={onSubmit}>
-        <h1 className="form__title">🪣 Bucket Challenge 🪣</h1>
-        <p className="form__description">
+      <div className="side-bar__card">
+        <h1 className="side-bar__title">🪣 Bucket Challenge 🪣</h1>
+        <p className="side-bar__description">
           Given a lake of water, an oddly shaped <b>small</b> (Ex: 3 unit)
           container (A) and an oddly shaped <b>large</b> (Ex: 5 unit) container
           (B), find the most efficient steps to get the <b>goal</b> (Ex: 4
           units) amount of water (C).
         </p>
-        <div className="form__inputs">
+        <form className="form" onSubmit={onSubmit}>
           <label className="form__label">Bucket A</label>
           <input
             required
@@ -220,19 +220,19 @@ export const Form = ({ addValues }) => {
           {error?.bucketGoal && (
             <p className="error__message">{error?.bucketGoal}</p>
           )}
-        </div>
 
-        <button
-          className="form__btn-submit"
-          type="submit"
-          title="Calculate"
-          disabled={disabled}
-        >
-          Calculate
-        </button>
-      </form>
+          <button
+            className="form__btn-submit"
+            type="submit"
+            title="Calculate"
+            disabled={disabled}
+          >
+            Calculate
+          </button>
+        </form>
 
-      {shortestPath && <Display shortestPath={shortestPath}></Display>}
+        {shortestPath && <Display shortestPath={shortestPath}></Display>}
+      </div>
     </div>
   );
 };

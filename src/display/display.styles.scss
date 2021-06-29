@@ -5,14 +5,21 @@
     margin-top: 10px;
     text-align: center;
   }
+  
   // .display__pairs
   &__pairs {
-   overflow-y: scroll;
+    max-width: 450px;
+    overflow-y: auto;
+    margin: auto;
 
    @media screen and (max-width: 475px){
       max-height: 390px;
    }
-   
+  }
+
+  // .display__goal
+  &__goal:nth-of-type(2) {
+    color: red;
   }
 }
 
@@ -33,5 +40,4 @@ table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
-  overflow-y: scroll;
 }
