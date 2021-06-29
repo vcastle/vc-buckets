@@ -1,5 +1,22 @@
-.grid {
-    display: grid;
-    grid-template-columns: 1fr 400px ;
-}
+$first: #0c75bb;
+$second: #2ca594;
+$third: #0096ff;
 
+.grid {
+  display: flex;
+  height: 100vh;
+
+  /* Old browsers */
+  background: -moz-linear-gradient(307deg, $first 20%, $second 40%, $third 75%);
+  // /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    307deg,
+    $first 20%,
+    $second 40%,
+    $third 75%
+  );
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(307deg, $first 20%, $second 40%, $third 75%);
+  background-size: 350% 350%;
+  animation: waveColors 8s ease infinite;
+}
