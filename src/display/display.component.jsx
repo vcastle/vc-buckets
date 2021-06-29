@@ -10,10 +10,12 @@ export const Display = ({ shortestPath }) => {
         {shortestPath.map((bucket, i) => (
           <tbody key={i}>
             <tr>
+              <th>Action</th>
               <th>Bucket A</th>
               <th>Bucket B</th>
             </tr>
             <tr>
+              <td>{bucket.action}</td>
               <td>{bucket.small}</td>
               <td>{bucket.large}</td>
             </tr>
