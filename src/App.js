@@ -12,7 +12,7 @@ function App() {
   };
 
   return (
-    <div className="grid">
+    <div className="app">
       <Form addValues={addValues}></Form>
     </div>
   );
