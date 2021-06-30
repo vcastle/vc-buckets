@@ -1,88 +1,85 @@
 /* eslint-disable no-unused-vars */
 import "./form.styles.scss";
 import { useState } from "react";
-
-import validateInput from "./validators/input-validator.component";
-import validateForm from "./validators/form-validator.component";
 import { Display } from "../display/display.component";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schemaValidation = yup.object().shape({
+  bucketA: yup
+    .number()
+    .typeError("Numeric value required")
+    .integer()
+    .required()
+    .positive()
+    .min(1)
+    .max(100),
+  bucketB: yup
+    .number()
+    .typeError("Numeric value required")
+    .integer()
+    .required()
+    .positive()
+    .min(1)
+    .max(100),
+  bucketGoal: yup
+    .number()
+    .typeError("Numeric value required")
+    .integer()
+    .required()
+    .positive()
+    .min(1)
+    .max(100)
+    .when("bucketB", (bucketB, bucketGoal) => {
+      return bucketB ? bucketGoal.max(bucketB) : bucketGoal.min(1);
+    })
+    .test({
+      name: "test-is-odd", // Your custom error id
+      test: function () {
+        const { bucketA, bucketB, bucketGoal } = this.parent; // Access the object data, here this.parent contains your data
+        if (bucketA % 2 === 0 && bucketGoal % 2 !== 0 && bucketB % 2 === 0) {
+          return this.createError({
+            message: `Two even buckets cannot result of an odd numbered goal value`, // Error message for the user
+            path: `bucketGoal`, // The object path where you want show the error
+          });
+        }
+        return true; // True for no error
+      },
+    }),
+});
 
 export const Form = ({ addValues }) => {
-  const [bucketA, setBucketA] = useState();
-  const [bucketB, setBucketB] = useState();
-  const [bucketGoal, setBucketGoal] = useState();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isDirty, isValid },
+  } = useForm({
+    mode: "all",
+    resolver: yupResolver(schemaValidation),
+  });
+
   const [bucketState] = useState({ small: 0, large: 0, action: "Initial" });
   const [shortestPath, setShortestPath] = useState();
-  const [errors, setErrors] = useState({});
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
 
-  /** HANDLE CHANGE */
-  const handleChange = (e) => {
-    const bucket = e.target.name;
-    const error = validateInput(e.target.value);
+  const onSubmit = (data) => {
+    const { bucketA, bucketB, bucketGoal } = data;
 
-    switch (bucket) {
-      case "bucketA":
-        setBucketA(Number(e.target.value));
-        break;
-      case "bucketB":
-        setBucketB(Number(e.target.value));
-        break;
-      case "bucketGoal":
-        setBucketGoal(Number(e.target.value));
-        break;
+    addValues(data);
+    getShortestPath(bucketA, bucketB, bucketGoal);
 
-      default:
-    }
-
-    if (error.length > 0) {
-      setDisabled(true);
-      setErrors({ [bucket]: error });
-    } else {
-      setErrors(null);
-      setDisabled(false);
-    }
-  };
-
-  /** CHECK MAX LENGTH */
-  const maxLengthCheck = (val) => {
-    if (val.target.value.length > val.target.maxLength) {
-      val.target.value = val.target.value.slice(0, val.target.maxLength);
-    }
-  };
-
-  /** ON SUBMIT */
-  const onSubmit = (e) => {
-    e.preventDefault();
-
-    // form validation
-    const error = validateForm(bucketA, bucketB, bucketGoal);
-
-    if (error.length > 0) {
-      setDisabled(true);
-      setErrors({ bucketGoal: error });
-      return;
-    } else {
-      addValues([bucketA, bucketB, bucketGoal]);
-      // Find path
-      getShortestPath(bucketA, bucketB, bucketGoal);
-
-      setDefaults();
-    }
-  };
-
-  const setDefaults = () => {
-    setBucketA(null);
-    setBucketB(null);
-    setBucketGoal(null);
-    setErrors(null);
+    reset();
+    setDisabled(true);
   };
 
   const getShortestPath = (maxSmBucket, maxLgBucket, bucketGoal) => {
     /** Breadth-First Search: BFS will not lead to an infinite loop and finds the shortest possible path between the root node and the goal via other accessible nodes. */
-    /** STEPS 
+    /** STEPS: 
       - Step One: Fill the large bucket and transfer its contents into the small bucket.
-      - Step Two: If at any instant large bucket becomes empty fill it with water.
-      - Step Three: If at any instant the small bucket becomes full empty it.
+      - Step Two: If large bucket becomes empty fill it with water.
+      - Step Three: If the small bucket becomes full empty it.
       - Step Four: Repeat steps one, two, and three until any of the buckets contains exactly the goal amount of water. */
 
     const fillBucket = (buckets, key = "large", max = maxLgBucket) => ({
@@ -175,65 +172,56 @@ export const Form = ({ addValues }) => {
           (B), find the most efficient steps to get the <b>goal</b> (Ex: 4
           units) amount of water (C).
         </p>
-        <form className="form" onSubmit={onSubmit}>
+        <form className="form" onSubmit={handleSubmit(onSubmit)}>
           <label className="form__label">Bucket A</label>
           <input
             className={`form__input ${errors?.bucketA && "error__input"}`}
-            type="text"
+            type="number"
             name="bucketA"
             placeholder="Enter Bucket A value"
-            maxLength="3"
-            minLength="1"
-            onChange={handleChange}
-            onBlur={handleChange}
-            onInput={maxLengthCheck}
-            value={bucketA || ""}
+            min="1"
+            max="100"
+            {...register("bucketA")}
           />
-          {errors?.bucketA && (
-            <p className="error__message">{errors?.bucketA}</p>
+
+          {errors.bucketA && (
+            <p className="error__message">{errors.bucketA?.message}</p>
           )}
 
           <label className="form__label">Bucket B</label>
           <input
             className={`form__input ${errors?.bucketB && "error__input"}`}
-            type="text"
+            type="number"
             name="bucketB"
             placeholder="Enter Bucket B value"
             maxLength="3"
             minLength="1"
-            onChange={handleChange}
-            onBlur={handleChange}
-            onFocus={handleChange}
-            onInput={maxLengthCheck}
-            value={bucketB || ""}
+            min="1"
+            {...register("bucketB")}
           />
-          {errors?.bucketB && (
-            <p className="error__message">{errors?.bucketB}</p>
+          {errors.bucketB && (
+            <p className="error__message">{errors.bucketB?.message}</p>
           )}
 
           <label className="form__label">Bucket Goal Amount</label>
           <input
             className={`form__input ${errors?.bucketGoal && "error__input"}`}
-            type="text"
+            type="number"
             name="bucketGoal"
             placeholder="Enter goal value"
             maxLength="3"
             minLength="1"
-            onChange={handleChange}
-            onBlur={handleChange}
-            onFocus={handleChange}
-            onInput={maxLengthCheck}
-            value={bucketGoal || ""}
+            {...register("bucketGoal")}
           />
-          {errors?.bucketGoal && (
-            <p className="error__message">{errors?.bucketGoal}</p>
+          {errors.bucketGoal && (
+            <p className="error__message">{errors.bucketGoal?.message}</p>
           )}
 
           <button
             className="form__btn-submit"
             type="submit"
             title="Calculate"
-            disabled={disabled}
+            disabled={!isDirty || !isValid}
           >
             Calculate
           </button>
