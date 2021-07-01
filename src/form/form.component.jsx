@@ -136,7 +136,7 @@ export const Form = ({ addValues }) => {
     queue.push(path);
 
     while (queue.length) {
-      const lastPath = queue.shift();
+      const lastPath = queue.shift(); // remove first element in queue and return it - changes the length of queue
       const lastState = lastPath[lastPath.length - 1];
 
       if (bucketGoal === lastState.large) return setShortestPath(lastPath);
